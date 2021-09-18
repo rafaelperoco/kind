@@ -6,7 +6,6 @@ Kind with extra tools for development environments
 - MetalLB for LoadBalancing
 - Ingress NGINX
 - Linkerd for Service Discovery and service mesh
-- Flux V2 for CD
 - Example pod with installed ingress entrypoint
 ### Dependencies
 - jq - Command line JSON processor
