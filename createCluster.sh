@@ -80,7 +80,7 @@ helm upgrade --install --wait frontend \
   --set ingress.enabled=true \
   --set "ingress.hosts[0].host=$IP_HEX.nip.io" \
   --set "ingress.hosts[0].paths[0].path=/" \
-  --set "ingress.hosts[0].paths[0].pathType=http" \
+  --set "ingress.hosts[0].paths[0].pathType=ImplementationSpecific" \
   --set linkerd.profile.enabled=true \
   --set ingress.className=nginx
 kubectl wait --for condition=Available=True deploy/frontend-podinfo -n default --timeout -1s
