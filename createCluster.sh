@@ -10,6 +10,12 @@ KIND_ADDRESS=$(docker network inspect kind | jq '.[].IPAM | .Config | .[0].Subne
 KIND_LB_RANGE=$(echo $KIND_ADDRESS.100)
 # Transform IP to Hex
 IP_HEX=$(echo $KIND_LB_RANGE | awk -F '.' '{printf "%08x", ($1 * 2^24) + ($2 * 2^16) + ($3 * 2^8) + $4}')
+# Ingress Address
+KIND_INGRESS_ADDRESS=$(echo $IP_HEX.nip.io)
+
+# Setting up templates
+## Linkerd
+sed "s/\$linkerd_ingress_host/linkerd.$KIND_INGRESS_ADDRESS/g" custom/templates/linkerd-viz.tpl > custom/linkerd-viz.yaml
 
 # Install repos
 helm repo add projectcalico https://docs.projectcalico.org/charts
@@ -59,17 +65,13 @@ helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
   --set "controller.tolerations[0].key=node-role.kubernetes.io/master" \
   --set "controller.tolerations[0].effect=NoSchedule" \
   --set podLabels.nodeapp=loadbalancer \
-  --set "service.annotations.metallb.universe.tf/address-pool=default"
+  --set "service.annotations.metallb.universe.tf/address-pool=default" \
+  --set defaultBackend.enabled=true \
+  --set defaultBackend.image.repository=rafaelperoco/default-backend,defaultBackend.image.tag=1.0.0
 kubectl wait --for condition=Available=True deploy/ingress-nginx-controller -n ingress-nginx --timeout -1s
-
-helm upgrade --install linkerd linkerd/linkerd2 \
-  --create-namespace \
-  --namespace linkerd-system \
-  --set-file identityTrustAnchorsPEM=ca.crt \
-  --set-file identity.issuer.tls.crtPEM=issuer.crt \
-  --set-file identity.issuer.tls.keyPEM=issuer.key \
-  --set identity.issuer.crtExpiry=$(date -d '+8760 hour' +"%Y-%m-%dT%H:%M:%SZ")
-
+linkerd install | kubectl apply -f -
+linkerd viz install | kubectl apply -f -\
+kubectl annotate --overwrite namespace default linkerd.io/inject=enabled
 kubectl wait --for condition=ready pod -l deploy/linkerd2 -n linkerd2 --timeout -1s
 
 # Install Podinfo (example project) and check if it is installed
@@ -78,7 +80,7 @@ helm upgrade --install --wait frontend \
   --set replicaCount=2 \
   --set backend=http://backend-podinfo:9898/echo podinfo/podinfo \
   --set ingress.enabled=true \
-  --set "ingress.hosts[0].host=$IP_HEX.nip.io" \
+  --set "ingress.hosts[0].host=podinfo.$KIND_INGRESS_ADDRESS" \
   --set "ingress.hosts[0].paths[0].path=/" \
   --set "ingress.hosts[0].paths[0].pathType=ImplementationSpecific" \
   --set linkerd.profile.enabled=true \
@@ -90,3 +92,6 @@ helm upgrade --install --wait backend \
   --set redis.enabled=true podinfo/podinfo
 kubectl wait --for condition=Available=True deploy/backend-podinfo -n default --timeout -1s
 kubectl wait --for condition=Available=True deploy/backend-podinfo-redis -n default --timeout -1s
+
+# Apply custom settings
+kubectl apply --recursive -f custom/
