@@ -5,3 +5,5 @@ ca.srl
 issuer.csr
 issuer.crt
 issuer.key
+*linkerd-viz.yaml
+*.vscode
