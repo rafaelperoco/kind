@@ -20,4 +20,6 @@ nodes:
     hostPort: 443
     protocol: TCP
 - role: worker
-- role: worker
+
+## Add more workers here
+# - role: worker
