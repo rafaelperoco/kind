@@ -1,8 +1,5 @@
 #!/bin/bash -x
 
-# Script for creating self-signed certificates.
-./certs.sh
-
 # Generate cluster name
 CLUSTER_NAME=cluster-$(openssl rand -hex 3)
 
@@ -12,8 +9,11 @@ kind create cluster --name $CLUSTER_NAME --config cluster.yaml
 # Get default gateway interface
 KIND_ADDRESS=$(docker network inspect kind | jq '.[].IPAM | .Config | .[0].Subnet' | cut -d \" -f 2 | cut -d"." -f1-3)
 
+# Radomize LB IP RANGE
+KIND_ADDRESS_END=$(shuf -i 100-150 -n1)
+
 # Create address range
-KIND_LB_RANGE=$(echo $KIND_ADDRESS.100)
+KIND_LB_RANGE=$(echo $KIND_ADDRESS.$KIND_ADDRESS_END)
 
 # Transform IP address to Hexadecimal
 IP_HEX=$(echo $KIND_LB_RANGE | awk -F '.' '{printf "%08x", ($1 * 2^24) + ($2 * 2^16) + ($3 * 2^8) + $4}')

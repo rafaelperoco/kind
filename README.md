@@ -24,10 +24,10 @@
 
 # Hardware requirements
 
-A cluster with 3 nodes requires (not counting the amount of hardware resources needed to run the applications you intend to deploy on the cluster).
+A cluster with 2 nodes requires (not counting the amount of hardware resources needed to run the applications you intend to deploy on the cluster).
 
 * CPU: 1vCPU with 2 GHz
-* Memory: 3 GB
+* Memory: 2 GB
 * HD: 20 GB
 
 # OS Supported
