@@ -9,7 +9,7 @@ kind create cluster --name $CLUSTER_NAME --config cluster.yaml
 # Get default gateway interface
 KIND_ADDRESS=$(docker network inspect kind | jq '.[].IPAM | .Config | .[0].Subnet' | cut -d \" -f 2 | cut -d"." -f1-3)
 
-# Radomize LB IP RANGE
+# Radomize Loadbalancer IP Range
 KIND_ADDRESS_END=$(shuf -i 100-150 -n1)
 
 # Create address range
