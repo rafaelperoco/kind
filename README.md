@@ -1,6 +1,7 @@
 <!-- TOC -->
 
 - [kind](#kind)
+- [Hardware requirements](#hardware-requirements)
 - [OS Supported](#os-supported)
 - [Features](#features)
 - [Dependencies](#dependencies)
@@ -14,7 +15,20 @@
 
 # kind
 
-Kind with extra tools for development environments
+[KinD](https://kind.sigs.k8s.io) (Kubernetes in Docker) with extra tools for development environments.
+
+```diff
+- Attention:
+```
+> Despite the name, the developers of this project did not create the [kind](https://github.com/kubernetes-sigs/kind) tool. We just automate the creation of a Kubernetes cluster using ``kind`` and deploy some useful services to the development/test environment.
+
+# Hardware requirements
+
+A cluster with 2 nodes requires (not counting the amount of hardware resources needed to run the applications you intend to deploy on the cluster).
+
+* CPU: 1vCPU with 2 GHz
+* Memory: 2 GB
+* HD: 20 GB
 
 # OS Supported
 
@@ -22,6 +36,7 @@ Tested with the following Operating Systems (OS):
 
 * Red Hat/Centos/Fedora
 * Debian/Ubuntu
+
 # Features
 
 * Calico CNI
@@ -29,6 +44,7 @@ Tested with the following Operating Systems (OS):
 * Ingress NGINX with default backend
 * Linkerd for Service Discovery and service mesh with dashboard
 * Example pod with installed ingress entrypoint
+
 # Dependencies
 
 Install dependecies following the instructions on the [REQUIREMENTS.md](REQUIREMENTS.md) file.
@@ -36,16 +52,22 @@ Install dependecies following the instructions on the [REQUIREMENTS.md](REQUIREM
 * jq - Command line JSON processor
 * openssl - Command line SSL/TLS tool
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-* [Docker](https://docs.docker.com/get-docker/)
-* [KinD](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
-* [Helm](https://helm.sh/docs/intro/install/#from-script)
+* [docker](https://docs.docker.com/get-docker/)
+* [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
+* [helm](https://helm.sh/docs/intro/install/#from-script)
 * [linkerd](https://linkerd.io/docs/latest/install/)
 
 # Creating your kind clusters
 
+Create a kind cluster using the following commands:
+
 ```shell
+chmod +x createCluster.sh
+
 ./createCluster.sh
 ```
+
+Wait a few minutes (about 10 to 15 minutes) while the cluster is being created and services are being deployed.
 
 # Get ingresses
 
@@ -66,11 +88,22 @@ password: admin
 
 ## Checking your created clusters
 
+Get the list of clusters created with kind:
+
 ```shell
 kind get clusters
 ```
+
 ## Deleting your created clusters
+
+Remove a kind cluster:
 
 ```shell
 kind delete clusters <clusterName>
+```
+
+Remove all clusters created with kind:
+
+```shell
+kind delete clusters $(kind get clusters)
 ```
