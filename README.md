@@ -25,6 +25,7 @@ Tested with the following Operating Systems (OS):
 # Features
 
 * Calico CNI
+* OpenEBS for Dynamic Volume Provisioning
 * MetalLB for LoadBalancing
 * Ingress NGINX with default backend
 * Linkerd for Service Discovery and service mesh with dashboard
