@@ -23,7 +23,7 @@ git remote -v
 * Make your changes to the new branch.
 * Test your changes in *development* environment.
 * Commit the changes to the branch.
-* Push files to repository remote with command `git push --set-upstream origin BRANCH_NAME`. Example: *git push --set-upstream origin BRANCH_NAME*
+* Push files to repository remote with command `git push --set-upstream origin BRANCH_NAME`. Example: *git push --set-upstream origin mybranch*
 * Create Pull Request (PR) to the `main` branch. See this [tutorial](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)
 * Update the content with the suggestions of the reviewer (if necessary).
 * After your pull request is merged, update your local clone.
@@ -33,14 +33,14 @@ git checkout main
 git pull upstream main
 ```
 
-* Clean up after your pull request is merged with command `git branch -d <branch name>`. Example: *git branch -d BRANCH_NAME*
+* Clean up after your pull request is merged with command `git branch -d <branch name>`. Example: *git branch -d mybranch*
 * Then you can update the ``main`` branch in your forked repository.
 
 ```bash
 git push origin main
 ```
 
-* And push the deletion of the feature branch to your GitHub repository with command `git push --delete origin <branch name>`. Example: *git push --delete origin BRANCH_NAME*
+* And push the deletion of the feature branch to your GitHub repository with command `git push --delete origin <branch name>`. Example: *git push --delete origin mybranch*
 * To keep your fork in sync with the original repository, use these commands:
 
 ```bash
@@ -59,15 +59,10 @@ Plugins to Visual Code:
 
 * docker: https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker (require docker-ce package)
 * gitlens: https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens (require git package)
-* go: https://marketplace.visualstudio.com/items?itemName=golang.Go (require go package)
-* gotemplate-syntax: https://marketplace.visualstudio.com/items?itemName=casualjim.gotemplate
-* jenkinsfile support: https://marketplace.visualstudio.com/items?itemName=ivory-lab.jenkinsfile-support
 * Markdown-all-in-one: https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one
 * Markdown-lint: https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint
 * Markdown-toc: https://marketplace.visualstudio.com/items?itemName=AlanWalk.markdown-toc
-* python: https://marketplace.visualstudio.com/items?itemName=ms-python.python (require python3 package)
 * shellcheck: https://marketplace.visualstudio.com/items?itemName=timonwong.shellcheck (require shellcheck package)
-* terraform: https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform (require terraform package)
 * YAML: https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
 * Helm Intellisense: https://marketplace.visualstudio.com/items?itemName=Tim-Koehler.helm-intellisense
 

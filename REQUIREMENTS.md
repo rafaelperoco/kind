@@ -39,9 +39,11 @@ Install Python 3 in CentOS: https://linuxize.com/post/how-to-install-python-3-on
 
 Install Docker CE (Community Edition) following the instructions of the pages below, according to your GNU/Linux distribution.
 
-* CentOS: https://docs.docker.com/install/linux/docker-ce/centos/
-* Debian: https://docs.docker.com/install/linux/docker-ce/debian/
-* Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+* RHEL: https://docs.docker.com/engine/install/rhel/
+* CentOS: https://docs.docker.com/engine/install/centos/
+* Debian: https://docs.docker.com/engine/install/debian/
+* Fedora: https://docs.docker.com/engine/install/fedora/
+* Ubuntu: https://docs.docker.com/engine/install/ubuntu/
 
 Start the ``docker`` service, configure Docker to boot up with the OS and add your user to the ``docker`` group.
 
@@ -57,10 +59,9 @@ sudo usermod -aG docker $USER
 sudo setfacl -m user:$USER:rw /var/run/docker.sock
 ```
 
-Reference: https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot
+References:
 
-For more information about Docker Compose visit:
-
+* https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot
 * https://docs.docker.com
 * http://blog.aeciopires.com/primeiros-passos-com-docker
 
@@ -98,7 +99,7 @@ $HELM_BIN version
 exit
 ```
 
-For more information about Helm visit:
+Documentation:
 
 * https://helm.sh/docs/
 
@@ -120,7 +121,6 @@ More information about ``kind``:
 * https://kind.sigs.k8s.io/docs/user/quick-start/
 * https://github.com/kubernetes-sigs/kind/releases
 * https://kubernetes.io/blog/2020/05/21/wsl-docker-kubernetes-on-the-windows-desktop/#kind-kubernetes-made-easy-in-a-container
-* 
 
 # Kubectl
 
@@ -154,7 +154,9 @@ exit
 
 More information about ``kubectl``: https://kubernetes.io/docs/reference/kubectl/overview/
 
-Reference: https://kubernetes.io/docs/tasks/tools/install-kubectl/
+Reference: 
+
+* https://kubernetes.io/docs/tasks/tools/install-kubectl/
 
 # Plugins for Kubectl
 
@@ -212,6 +214,10 @@ export PATH=\$PATH:/home/\$USER/.linkerd2/bin
 EOF
 source ~/.bashrc
 ```
+
+Documentation:
+
+* https://linkerd.io/2.10/getting-started/
 
 # Script of customized prompt
 
