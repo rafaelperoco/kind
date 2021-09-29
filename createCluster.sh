@@ -20,6 +20,7 @@ sed "s/\$linkerd_ingress_host/linkerd.$KIND_INGRESS_ADDRESS/g" custom/templates/
 
 # Install repos
 helm repo add projectcalico https://docs.projectcalico.org/charts
+helm repo add openebs-nfs https://openebs.github.io/dynamic-nfs-provisioner
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo add metallb https://metallb.github.io/metallb
 helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -34,6 +35,11 @@ helm install calico projectcalico/tigera-operator \
   --create-namespace \
   --version v3.20.0
 kubectl wait --for condition=Available=True deploy/tigera-operator -n tigera-operator --timeout -1s
+
+# Install Dynamic Volume Provisioner
+helm install openebs openebs-nfs/nfs-provisioner \
+  --namespace openebs --create-namespace
+kubectl wait --for condition=Available=True deploy/openebs-nfs-provisioner -n openebs --timeout -1s
 
 # Install metrics-server and check if it is installed
 helm install metrics-server bitnami/metrics-server \
@@ -72,8 +78,9 @@ helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
 kubectl wait --for condition=Available=True deploy/ingress-nginx-controller -n ingress-nginx --timeout -1s
 linkerd install | kubectl apply -f -
 linkerd viz install | kubectl apply -f -
+kubectl wait --for condition=Available=True deploy/linkerd-controller -n linkerd --timeout -1s
+kubectl wait --for condition=Available=True deploy/linkerd-viz -n linkerd-viz --timeout -1s
 kubectl annotate --overwrite namespace default linkerd.io/inject=enabled
-kubectl wait --for condition=ready pod -l deploy/linkerd2 -n linkerd2 --timeout -1s
 
 # Install Podinfo (example project) and check if it is installed
 helm upgrade --install --wait frontend \
