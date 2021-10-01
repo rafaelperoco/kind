@@ -83,6 +83,7 @@ helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
   --set defaultBackend.enabled=true \
   --set defaultBackend.image.repository=rafaelperoco/default-backend,defaultBackend.image.tag=1.0.0
 kubectl wait --for condition=Available=True deploy/ingress-nginx-controller -n ingress-nginx --timeout -1s
+kubectl create ns linkerd-viz
 linkerd install | kubectl apply -f -
 linkerd viz install | kubectl apply -f -
 kubectl wait --for condition=Available=True deploy/linkerd-controller -n linkerd --timeout -1s
@@ -109,5 +110,4 @@ kubectl wait --for condition=Available=True deploy/backend-podinfo -n default --
 kubectl wait --for condition=Available=True deploy/backend-podinfo-redis -n default --timeout -1s
 
 # Apply custom settings
-kubectl create ns linkerd-viz
 kubectl apply --recursive -f custom/
