@@ -24,7 +24,9 @@ KIND_INGRESS_ADDRESS=$(echo $IP_HEX.nip.io)
 cilium install
 
 flux bootstrap github \
+  --token-auth \
   --owner=rafaelperoco \
   --repository=kind \
-  --path=flux/clusters/dev \
-  --personal
+  --branch=main \
+  --personal \
+  --path=flux/clusters/dev
