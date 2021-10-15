@@ -21,6 +21,8 @@ IP_HEX=$(echo $KIND_LB_RANGE | awk -F '.' '{printf "%08x", ($1 * 2^24) + ($2 * 2
 # Ingress Address
 KIND_INGRESS_ADDRESS=$(echo $IP_HEX.nip.io)
 
+cilium install
+
 flux bootstrap github \
   --owner=rafaelperoco \
   --repository=kind \

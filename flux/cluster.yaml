@@ -6,12 +6,14 @@ networking:
 
 nodes:
 - role: control-plane
+- role: apps
+- role: infra
   kubeadmConfigPatches:
   - |
     kind: InitConfiguration
     nodeRegistration:
       kubeletExtraArgs:
-        node-labels: "nodeapp=loadbalancer"
+        node-labels: "role=infra"
   extraPortMappings:
   - containerPort: 80
     hostPort: 80
@@ -19,7 +21,3 @@ nodes:
   - containerPort: 443
     hostPort: 443
     protocol: TCP
-- role: worker
-
-## Add more workers here
-# - role: worker

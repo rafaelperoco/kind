@@ -1,0 +1,29 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: openebs
+  namespace: flux-system
+spec:
+  storageNamespace: openebs
+  targetNamespace: openebs
+  chart:
+    spec:
+      chart: nfs-provisioner
+      sourceRef:
+        kind: HelmRepository
+        name: openebs
+  install:
+    createNamespace: true
+    disableWait: false
+    remediation:
+      retries: -1
+  interval: 2m0s
+  values:
+    namespace: openebs
+    nfsProvisioner:
+      tolerations:
+      - key: "dedicated"
+        value: "infra"
+        effect: "NoSchedule"
+      nodeSelector:
+        role: infra
