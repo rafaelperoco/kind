@@ -6,8 +6,14 @@ networking:
 
 nodes:
 - role: control-plane
-- role: apps
-- role: infra
+- role: worker
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "role=apps"
+- role: worker
   kubeadmConfigPatches:
   - |
     kind: InitConfiguration

@@ -29,4 +29,5 @@ flux bootstrap github \
   --repository=kind \
   --branch=main \
   --personal \
-  --path=flux/clusters/dev
+  --path=flux/clusters/dev \
+  --log-level=debug
