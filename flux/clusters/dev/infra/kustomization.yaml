@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
 - ../_base/
 - helmrelease-openebs.yaml
-
-patchesStrategicMerge:
 - helmrelease-ingress-nginx.yaml
+
+# patchesStrategicMerge:
