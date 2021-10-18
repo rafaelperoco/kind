@@ -6,4 +6,6 @@ resources:
 - helmrelease-openebs.yaml
 - helmrelease-ingress-nginx.yaml
 
-# patchesStrategicMerge:
+patchesStrategicMerge:
+- helmrelease-openebs.yaml
+- helmrelease-ingress-nginx.yaml
