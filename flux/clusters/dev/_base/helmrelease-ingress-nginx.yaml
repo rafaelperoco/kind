@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+  namespace: flux-system
+spec:
+  values:
+    controller:
+      nodeSelector:
+        role: infra
+      tolerations:
+        - key: dedicated
+          value: infra
+          effect: NoSchedule
+      podLabels:
+        role: infra
+        app: ingress-nginx
+      service:
+        annotations:
+          metallb.universe.tf/address-pool: default
+      defaultBackend:
+        enabled: true
+        image:
+          repository: rafaelperoco/default-backend
+          tag: 1.0.0
