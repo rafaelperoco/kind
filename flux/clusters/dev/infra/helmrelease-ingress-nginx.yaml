@@ -4,6 +4,20 @@ metadata:
   name: ingress-nginx
   namespace: flux-system
 spec:
+  storageNamespace: ingress-nginx
+  targetNamespace: ingress-nginx
+  chart:
+    spec:
+      chart: ingress-nginx
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx
+  install:
+    createNamespace: true
+    disableWait: false
+    remediation:
+      retries: -1
+  interval: 1m0s
   values:
     controller:
       nodeSelector:
