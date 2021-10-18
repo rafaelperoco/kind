@@ -3,3 +3,5 @@ kind: Kustomization
 
 resources:
 - helmrepository.yaml
+- helmrelease-ingress-nginx.yaml
+- helmrelease-openebs.yaml
