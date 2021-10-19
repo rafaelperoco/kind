@@ -6,3 +6,4 @@ resources:
 - helmrelease-ingress-nginx.yaml
 - helmrelease-openebs.yaml
 - helmrelease-metrics-server.yaml
+- helmrelease-metallb.yaml

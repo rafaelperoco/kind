@@ -8,4 +8,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: kind
-  path: ./infra
+  path: ./flux/clusters/dev/infra
+  prune: true

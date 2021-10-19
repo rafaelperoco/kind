@@ -21,11 +21,20 @@ IP_HEX=$(echo $KIND_LB_RANGE | awk -F '.' '{printf "%08x", ($1 * 2^24) + ($2 * 2
 # Ingress Address
 KIND_INGRESS_ADDRESS=$(echo $IP_HEX.nip.io)
 
+# Installing Cilium CNI
 cilium install
 
+# Creating Load Balancer with MetalLB
+kubectl create namespace metallb-system
 sed "s/\$kind_lb_range/$KIND_LB_RANGE\/32/g" templates/metallb-config.tpl > /tmp/metallb-configmap.yaml
 kubectl apply -f /tmp/metallb-configmap.yaml
 
+# Tainting infra node
 kubectl taint nodes $(kubectl get nodes -l role=infra -ojson | jq -r '.items[].metadata.name') role=infra:NoSchedule
 
+# Installing Flux V2
 flux install --toleration-keys=node-role.kubernetes.io/master
+
+kubectl apply -f ~/Desktop/secret.yaml
+kubectl apply -f ~/Desktop/gitrepo.yaml
+kubectl apply -f clusters/dev/infra/infra.yaml
