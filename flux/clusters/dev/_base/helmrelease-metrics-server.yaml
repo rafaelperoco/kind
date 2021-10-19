@@ -4,6 +4,7 @@ metadata:
   name: metrics-server
   namespace: flux-system
 spec:
+  releaseName: metrics-server
   storageNamespace: kube-system
   targetNamespace: kube-system
   chart:
