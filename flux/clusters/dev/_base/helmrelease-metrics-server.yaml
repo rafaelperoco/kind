@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: bitnami
   install:
-    createNamespace: true
+    createNamespace: false
     disableWait: false
     remediation:
       retries: -1
