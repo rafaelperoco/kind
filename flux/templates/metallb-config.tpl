@@ -7,6 +7,6 @@ data:
   config: |
     address-pools:
     - addresses:
-      - kind_lb_range
+      - $kind_lb_range
       name: default
       protocol: layer2

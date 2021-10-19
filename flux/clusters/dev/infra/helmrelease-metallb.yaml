@@ -9,11 +9,13 @@ spec:
     controller:
       tolerations:
         - key: role
-          effect: NoSchedule
           value: infra
+      nodeSelector:
+        role: infra
     speaker:
       tolerations:
         - key: role
-          effect: NoSchedule
           value: infra
+      nodeSelector:
+        role: infra
     existingConfigMap: metallb-config
