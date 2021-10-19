@@ -1,0 +1,19 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+  namespace: flux-system
+spec:
+  releaseName: ingress-nginx
+  values:
+    controller:
+      tolerations:
+        - key: role
+          effect: NoSchedule
+          value: infra
+    speaker:
+      tolerations:
+        - key: role
+          effect: NoSchedule
+          value: infra
+    existingConfigMap: metallb-config
