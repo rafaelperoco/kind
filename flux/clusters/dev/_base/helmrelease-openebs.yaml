@@ -4,7 +4,6 @@ metadata:
   name: openebs
   namespace: flux-system
 spec:
-  releaseName: openebs
   storageNamespace: openebs
   targetNamespace: openebs
   chart:

@@ -4,6 +4,7 @@ metadata:
   name: ingress-nginx
   namespace: flux-system
 spec:
+  releaseName: ingress-nginx
   values:
     controller:
       nodeSelector:

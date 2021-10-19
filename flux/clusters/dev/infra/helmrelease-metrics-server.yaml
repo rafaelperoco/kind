@@ -4,6 +4,7 @@ metadata:
   name: metrics-server
   namespace: flux-system
 spec:
+  releaseName: metrics-server
   values:
     rbac:
       create: true

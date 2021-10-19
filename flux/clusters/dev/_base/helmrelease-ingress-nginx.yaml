@@ -4,7 +4,6 @@ metadata:
   name: ingress-nginx
   namespace: flux-system
 spec:
-  releaseName: ingress-nginx
   storageNamespace: ingress-nginx
   targetNamespace: ingress-nginx
   chart:
