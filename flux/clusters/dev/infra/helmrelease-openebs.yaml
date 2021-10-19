@@ -7,7 +7,7 @@ spec:
   values:
     nfsProvisioner:
       tolerations:
-      - key: "dedicated"
+      - key: "role"
         value: "infra"
         effect: "NoSchedule"
       nodeSelector:

@@ -21,13 +21,8 @@ IP_HEX=$(echo $KIND_LB_RANGE | awk -F '.' '{printf "%08x", ($1 * 2^24) + ($2 * 2
 # Ingress Address
 KIND_INGRESS_ADDRESS=$(echo $IP_HEX.nip.io)
 
+kubectl taint nodes $(kubectl get nodes -l role=infra -ojson | jq -r '.items[].metadata.name') role=infra:NoSchedule
+
 cilium install
 
-flux bootstrap github \
-  --token-auth \
-  --owner=rafaelperoco \
-  --repository=kind \
-  --branch=main \
-  --personal \
-  --path=flux/clusters/dev \
-  --log-level=debug
+flux install --toleration-keys=node-role.kubernetes.io/master

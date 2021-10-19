@@ -9,7 +9,7 @@ spec:
       nodeSelector:
         role: infra
       tolerations:
-        - key: dedicated
+        - key: role
           value: infra
           effect: NoSchedule
       podLabels:

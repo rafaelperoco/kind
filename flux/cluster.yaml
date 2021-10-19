@@ -9,14 +9,14 @@ nodes:
 - role: worker
   kubeadmConfigPatches:
   - |
-    kind: InitConfiguration
+    kind: JoinConfiguration
     nodeRegistration:
       kubeletExtraArgs:
         node-labels: "role=apps"
 - role: worker
   kubeadmConfigPatches:
   - |
-    kind: InitConfiguration
+    kind: JoinConfiguration
     nodeRegistration:
       kubeletExtraArgs:
         node-labels: "role=infra"
