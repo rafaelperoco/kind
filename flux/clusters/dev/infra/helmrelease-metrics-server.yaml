@@ -1,0 +1,13 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: metrics-server
+  namespace: flux-system
+spec:
+  values:
+    rbac:
+      create: true
+    extraArgs:
+      --kubelet-insecure-tls: true
+    apiService:
+      create: true

@@ -5,3 +5,4 @@ resources:
 - helmrepository.yaml
 - helmrelease-ingress-nginx.yaml
 - helmrelease-openebs.yaml
+- helmrelease-metrics-server.yaml

@@ -7,3 +7,4 @@ bases:
 patchesStrategicMerge:
 - helmrelease-openebs.yaml
 - helmrelease-ingress-nginx.yaml
+- helmrelease-metrics-server.yaml
