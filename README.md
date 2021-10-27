@@ -66,13 +66,13 @@ Create a kind cluster using the following commands:
 
 Linkerd for Service Discovery and Service Mesh
 ```shell
-chmod +x createClusterWithLinkerd.sh
-./createClusterWithLinkerd.sh
+chmod +x createCluster.sh
+./createCluster.sh
 ```
 Istio for Service Discovery and Service Mesh
 ```shell
 chmod +x createClusterWithIstio.sh
-./createClusterWithIstio.sh
+./istio/createClusterWithIstio.sh
 ```
 
 Wait a few minutes (about 10 to 15 minutes) while the cluster is being created and services are being deployed.
