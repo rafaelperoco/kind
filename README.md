@@ -71,7 +71,7 @@ chmod +x createCluster.sh
 ```
 Istio for Service Discovery and Service Mesh
 ```shell
-chmod +x createClusterWithIstio.sh
+chmod +x ./istio/createClusterWithIstio.sh
 ./istio/createClusterWithIstio.sh
 ```
 
