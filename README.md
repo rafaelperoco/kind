@@ -44,6 +44,7 @@ Tested with the following Operating Systems (OS):
 * MetalLB for LoadBalancing
 * Ingress NGINX with default backend
 * Linkerd for Service Discovery and service mesh with dashboard
+* Istio for Service Discovery and service mesh with dashboard
 * Example pod with installed ingress entrypoint
 
 # Dependencies
@@ -57,20 +58,26 @@ Install dependecies following the instructions on the [REQUIREMENTS.md](REQUIREM
 * [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 * [helm](https://helm.sh/docs/intro/install/#from-script)
 * [linkerd](https://linkerd.io/docs/latest/install/)
+* [istio](https://istio.io/latest/docs/setup/install/)
 
 # Creating your kind clusters
 
 Create a kind cluster using the following commands:
 
+Linkerd for Service Discovery and Service Mesh
 ```shell
 chmod +x createCluster.sh
-
 ./createCluster.sh
+```
+Istio for Service Discovery and Service Mesh
+```shell
+chmod +x ./istio/createClusterWithIstio.sh
+./istio/createClusterWithIstio.sh
 ```
 
 Wait a few minutes (about 10 to 15 minutes) while the cluster is being created and services are being deployed.
 
-# Get ingresses
+# Access Application (Linkerd) 
 
 Get the addresses of the applications to be accessed in the browser:
 
@@ -84,6 +91,17 @@ Linkerd default username and password:
 user: admin
 password: admin
 ```
+
+# Access Application (Istio)
+
+If using'createClusterWithIstio.sh ' to access the application, just through the IP provided by metallb. 
+
+To get the addresses of the applications, just find the IP:
+
+```shell
+kubectl get services --namespace istio-system istio-ingressgateway --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
+```
+Ex: curl http://172.18.0.130/productpage
 
 # Cleanup / Uninstall
 
