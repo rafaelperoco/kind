@@ -22,6 +22,8 @@ IP_HEX=$(echo $KIND_LB_RANGE | awk -F '.' '{printf "%08x", ($1 * 2^24) + ($2 * 2
 KIND_INGRESS_ADDRESS=$(echo $IP_HEX.nip.io)
 
 # Setting up templates
+## Linkerd
+sed "s/\$linkerd_ingress_host/linkerd.$KIND_INGRESS_ADDRESS/g" custom/templates/linkerd-viz.tpl > custom/linkerd-viz.yaml
 
 # Install and upgrade Helm repositories
 helm repo add projectcalico https://docs.projectcalico.org/charts
@@ -81,6 +83,12 @@ helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
   --set defaultBackend.enabled=true \
   --set defaultBackend.image.repository=rafaelperoco/default-backend,defaultBackend.image.tag=1.0.0
 kubectl wait --for condition=Available=True deploy/ingress-nginx-controller -n ingress-nginx --timeout -1s
+kubectl create ns linkerd-viz
+linkerd install | kubectl apply -f -
+linkerd viz install | kubectl apply -f -
+kubectl wait --for condition=Available=True deploy/linkerd-controller -n linkerd --timeout -1s
+kubectl wait --for condition=Available=True deploy/linkerd-viz -n linkerd-viz --timeout -1s
+kubectl annotate --overwrite namespace default linkerd.io/inject=enabled
 
 # Install Podinfo (example project) and check if it is installed
 helm upgrade --install --wait frontend \
@@ -91,6 +99,7 @@ helm upgrade --install --wait frontend \
   --set "ingress.hosts[0].host=podinfo.$KIND_INGRESS_ADDRESS" \
   --set "ingress.hosts[0].paths[0].path=/" \
   --set "ingress.hosts[0].paths[0].pathType=ImplementationSpecific" \
+  --set linkerd.profile.enabled=true \
   --set ingress.className=nginx
 kubectl wait --for condition=Available=True deploy/frontend-podinfo -n default --timeout -1s
 
@@ -101,4 +110,4 @@ kubectl wait --for condition=Available=True deploy/backend-podinfo -n default --
 kubectl wait --for condition=Available=True deploy/backend-podinfo-redis -n default --timeout -1s
 
 # Apply custom settings
-# kubectl apply --recursive -f custom/
+kubectl apply --recursive -f ../custom/
