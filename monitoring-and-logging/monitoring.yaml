@@ -1,0 +1,57 @@
+commonLabels:
+  role: infra
+
+grafana:
+  service:
+    type: ClusterIP
+    sessionAffinity: ClientIP
+
+  tolerations:
+  - key: dedicated
+    value: infra
+    effect: NoSchedule
+  - key: CriticalAddonsOnly
+    effect: NoSchedule
+
+  nodeSelector:
+    role: infra
+
+  deploymentStrategy:
+    type: Recreate
+
+  persistence:
+    enabled: true
+    accessModes: ["ReadWriteOnce"]
+    size: 10Gi
+
+  resources:
+    limits:
+      cpu: 1
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
+  env:
+    GF_EXPLORE_ENABLED: "true"
+
+  plugins:
+    - grafana-kubernetes-app
+    - camptocamp-prometheus-alertmanager-datasource
+    - grafana-clock-panel
+
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      url: http://loki.logging.svc:3100
+      basicAuth: false
+      access: proxy
+      isDefault: false
+      jsonData:
+        maxLines: 100000
+    - name: prometheus
+      type: prometheus
+      url: http://monitoring-kube-prometheus-prometheus:9090/
+      access: proxy
+      isDefault: false
+      editable: true

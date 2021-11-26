@@ -1,0 +1,64 @@
+loki:
+  config:
+    auth_enabled: false
+    limits_config:
+      max_entries_limit_per_query: 100000
+    chunk_store_config:
+      max_look_back_period: 48h
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 48h
+
+  ingress:
+    enabled: false
+
+  tolerations:
+  - effect: NoSchedule
+    key: dedicated
+    value: infra
+  - effect: NoSchedule
+    key: CriticalAddonsOnly
+
+  nodeSelector:
+    role: infra
+
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 100m
+      memory: 1Gi
+
+  #priorityClassName: high-priority
+
+  persistence:
+    enabled: true
+    # storageClassName: gp2
+    size: 100Gi
+
+  serviceMonitor:
+    enabled: true
+    interval: 60s
+
+promtail:
+  tolerations:
+  - operator: Exists
+    effect: NoSchedule
+
+  resources:
+    limits:
+      cpu: 1
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 512Mi
+
+  grafana:
+    enabled: false
+
+  fluent-bit:
+    enabled: false
+
+  prometheus:
+    enabled: false

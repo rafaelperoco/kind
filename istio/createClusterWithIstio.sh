@@ -27,22 +27,19 @@ helm repo update
 helm install calico projectcalico/tigera-operator \
   --namespace calico-system \
   --create-namespace \
-  --version v3.20.0
-kubectl wait --for condition=Available=True deploy/tigera-operator -n tigera-operator --timeout -1s
-
+  --version v3.20.0 \
+  --wait
 # Install Dynamic Volume Provisioner
 helm install openebs openebs-nfs/nfs-provisioner \
-  --namespace openebs --create-namespace
-kubectl wait --for condition=Available=True deploy/openebs-nfs-provisioner -n openebs --timeout -1s
-
+  --namespace openebs --create-namespace \
+  --wait
 # Install metrics-server and check if it is installed
 helm install metrics-server bitnami/metrics-server \
   --namespace kube-system \
   --set rbac.create=true \
   --set extraArgs.kubelet-insecure-tls=true \
-  --set apiService.create=true
-kubectl wait --for condition=Available=True deploy/metrics-server -n kube-system --timeout -1s
-
+  --set apiService.create=true \
+  --wait
 # Install MetalLB and check if it is installed
 helm upgrade --install metallb metallb/metallb \
   --create-namespace \
@@ -54,9 +51,8 @@ helm upgrade --install metallb metallb/metallb \
   --set "controller.tolerations[0].key=node-role.kubernetes.io/master" \
   --set "controller.tolerations[0].effect=NoSchedule" \
   --set speaker.tolerateMaster=true \
-  --set speaker.nodeSelector.nodeapp=loadbalancer
-kubectl wait --for condition=Available=True deploy/metallb-controller -n metallb-system --timeout -1s
-kubectl wait --for condition=ready pod -l app.kubernetes.io/component=controller -n metallb-system --timeout -1s
+  --set speaker.nodeSelector.nodeapp=loadbalancer \
+  --wait
 
 # Install kubernetes dashboard
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml
